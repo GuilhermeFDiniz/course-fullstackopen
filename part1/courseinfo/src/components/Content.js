@@ -2,11 +2,12 @@ import React from 'react'
 import Part from './Part'
 
 function Content(props) {
+  console.log(props.parts)
   return (
     <>
-      <Part part={props.part1} exercises={props.exercises1}/>
-      <Part part={props.part2} exercises={props.exercises2}/>
-      <Part part={props.part3} exercises={props.exercises3}/>
+      {props.parts.map((item, index) => {
+        return <Part key={index} part={item.name} exercises={item.exercises}/>
+      })}
     </>
   )
 }
