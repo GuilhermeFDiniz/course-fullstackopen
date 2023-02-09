@@ -4,14 +4,14 @@ const Button = (props) => {
   return <button onClick={props.handleEvent}>{props.text}</button>
 }
 
-  const StatisticLine = (props) => {
-    return (
-      <tr>
-        <td>{props.text}</td>
-        <td>{props.value}</td>
-      </tr>
-    )
-  }
+const StatisticLine = (props) => {
+  return (
+    <tr>
+      <td>{props.text}</td>
+      <td>{props.value}</td>
+    </tr>
+  )
+}
 
 const Statistics = (props) => {
   if(props.good+props.bad+props.neutral === 0){
