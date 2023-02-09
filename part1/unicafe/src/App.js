@@ -4,9 +4,14 @@ const Button = (props) => {
   return <button onClick={props.handleEvent}>{props.text}</button>
 }
 
-const StatisticLine = (props) => {
-return <p>{props.text}: {props.value}</p>
-}
+  const StatisticLine = (props) => {
+    return (
+      <tr>
+        <td>{props.text}</td>
+        <td>{props.value}</td>
+      </tr>
+    )
+  }
 
 const Statistics = (props) => {
   if(props.good+props.bad+props.neutral === 0){
@@ -20,12 +25,16 @@ const Statistics = (props) => {
   return(
     <>
       <h1>statistics</h1>
-      <StatisticLine value={props.good} text="good"/>
-      <StatisticLine value={props.neutral} text="neutral"/>
-      <StatisticLine value={props.bad} text="bad"/>
-      <StatisticLine value={props.good + props.neutral + props.bad} text="all"/>
-      <StatisticLine value={(props.good - props.bad)/(props.good + props.bad + props.neutral) } text="average"/>
-      <StatisticLine value= {`${props.good*100/(props.good+props.bad+props.neutral)}%`} text="positive"/>
+      <table>
+        <tbody>
+          <StatisticLine value={props.good} text="good"/>
+          <StatisticLine value={props.neutral} text="neutral"/>
+          <StatisticLine value={props.bad} text="bad"/>
+          <StatisticLine value={props.good + props.neutral + props.bad} text="all"/>
+          <StatisticLine value={(props.good - props.bad)/(props.good + props.bad + props.neutral) } text="average"/>
+          <StatisticLine value= {`${props.good*100/(props.good+props.bad+props.neutral)}%`} text="positive"/>
+        </tbody>
+      </table>
     </>
     )
   }
