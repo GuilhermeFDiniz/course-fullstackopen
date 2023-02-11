@@ -14,6 +14,7 @@ const App = () => {
 
   const [selected, setSelected] = useState()
   const [points, setPoints] = useState({})
+  const [mostVoted, setMostVoted] = useState()
 
 
   const vote = () => {
@@ -25,15 +26,21 @@ const App = () => {
       copy[selected] = points[selected] +1
     }
     setPoints(copy)
+    setMostVoted(Object.keys(copy).reduce((a, b) => copy[a] > copy[b] ? a : b))
   }
-  console.log(selected, points)
+
+
+
   return (
 
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{anecdotes[selected]}</p>
       <p>has {points[selected]} votes</p>
       {selected === undefined ? null : <button onClick={vote}>vote</button> }
       <button onClick={() => setSelected(Math.floor(Math.random() * (anecdotes.length - 1)))}>next anecdote</button>
+      <h1>Anecdote with most votes</h1>
+      <p>{anecdotes[mostVoted]}</p>
     </div>
   )
 }
