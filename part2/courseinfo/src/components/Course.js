@@ -1,6 +1,7 @@
 import React from 'react'
 import Content from './Content'
 import Header from './Header'
+import Total from './Total'
 
 function Course(props) {
   const {course} = props
@@ -8,6 +9,7 @@ function Course(props) {
     <div>
       <Header course={course.name}/>
       <Content parts={course.parts}/>
+      <Total parts={course.parts}/>
   </div>
   )
 }
