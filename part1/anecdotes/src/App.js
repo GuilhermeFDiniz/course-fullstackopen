@@ -12,12 +12,27 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
 
-  const [selected, setSelected] = useState(0)
+  const [selected, setSelected] = useState()
+  const [points, setPoints] = useState({})
 
+
+  const vote = () => {
+
+    const copy = {...points}
+    if(copy[selected] === undefined){
+      copy[selected] = 1
+    } else {
+      copy[selected] = points[selected] +1
+    }
+    setPoints(copy)
+  }
+  console.log(selected, points)
   return (
+
     <div>
-      {anecdotes[selected]}
-      <br></br>
+      <p>{anecdotes[selected]}</p>
+      <p>has {points[selected]} votes</p>
+      {selected === undefined ? null : <button onClick={vote}>vote</button> }
       <button onClick={() => setSelected(Math.floor(Math.random() * (anecdotes.length - 1)))}>next anecdote</button>
     </div>
   )
