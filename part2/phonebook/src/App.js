@@ -18,13 +18,19 @@ const App = () => {
     })
   },[])
 
+  const postPhone = (data) => {
+    const request = axios.post('http://localhost:3001/persons/', data)
+    return request.then(response => response.data)
+  }
+
   const handleForm = (event) => {
     event.preventDefault()
     if(persons.some((element) => element.name === newName)){
       alert(`${newName} is already added to phonebook`)
     } else {
       const nameObject = {'name': newName, 'number': newNumber}
-      setPersons(persons.concat(nameObject))
+      postPhone(nameObject).then(
+      setPersons(persons.concat(nameObject)))
     }
     setNewName('')
     setNewNumber('')
