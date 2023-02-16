@@ -11,7 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newFilterName, setNewFilterName] = useState('')
   const [persons, setPersons] = useState([])
-  const [successMsg, setSuccessMsg] = useState(null)
+  const [handleMessage, setHandleMessage] = useState({})
 
   useEffect(() => {
     HandleRequest
@@ -29,23 +29,37 @@ const App = () => {
       const changedPerson = {...personToUpdate, 'number': newNumber}
       phoneService.updatePhone(changedPerson, personToUpdate.id).then(response => {
         setPersons(persons.map(person => person.id !== response.id ? person : response))
-        setSuccessMsg(
-          `Number of ${personToUpdate.name}' is changed`
+        setHandleMessage({
+          content: `Number of ${personToUpdate.name}' is changed`,
+          class: 'success'
+        }
         )
         setTimeout(() => {
-          setSuccessMsg(null)
+          setHandleMessage({})
         }, 5000)
+      }).catch(error => {
+        setHandleMessage({
+          content: `Information of ${personToUpdate.name}' has already been removed from server`,
+          class: 'error'
+        }
+        )
+        setTimeout(() => {
+          setHandleMessage({})
+        }, 5000)
+        setPersons(persons.filter(n => n.id !== personToUpdate.id))
       })
       }
     } else {
       const nameObject = {'name': newName, 'number': newNumber}
       phoneService.createPhone(nameObject).then(response => {
       setPersons(persons.concat(response))
-      setSuccessMsg(
-        `Added ${nameObject.name}`
+      setHandleMessage({
+        content: `Added ${nameObject.name}`,
+        class: 'success'
+      }
       )
       setTimeout(() => {
-        setSuccessMsg(null)
+        setHandleMessage({})
       }, 5000)
     })
     }
@@ -59,7 +73,14 @@ const App = () => {
     phoneService.deletePhone(id).then(response => {
       setPersons(persons.filter((person) => personToDelete.id !== person.id))
     }).catch(error => {
-      console.log(error);
+      setHandleMessage({
+        content: `Error while deleting ${personToDelete.name}`,
+        class: 'error'
+      }
+      )
+      setTimeout(() => {
+        setHandleMessage({})
+      }, 5000)
     })
   }
   }
@@ -84,7 +105,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={successMsg} />
+      <Notification message={handleMessage}/>
       <Filter newFilterName={newFilterName} handleFilter={handleFilter}/>
       <h3>Add a new</h3>
       <PersonForm
