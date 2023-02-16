@@ -1,6 +1,6 @@
 import React from 'react'
 
-function CountriesList({list}) {
+function CountriesList({list, handleClick}) {
   if(list.length > 10){
     return <p>Too many matches, specify another filter</p>
   } else if (list.length === 1){
@@ -21,7 +21,7 @@ function CountriesList({list}) {
   } else {
     return(
       list.map(country => {
-        return <p key={country.name.official}>{country.name.common}</p>
+        return <div key={country.name.official}>{country.name.common}<button onClick={() => handleClick(country.name.common)}>show</button></div>
       })
     )
   }

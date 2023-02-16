@@ -21,11 +21,16 @@ function App() {
     setCountriesFilter(filterList)
   }
 
+  const handleClick = (name) => {
+    const filterCountry = countries.find(country => country.name.common === name)
+    setCountriesFilter([filterCountry])
+  }
+
 
   return (
     <div className="App">
       <div>find countries</div><input onChange={handleFilter}/>
-      <CountriesList list={countriesFilter}/>
+      <CountriesList list={countriesFilter} handleClick={handleClick}/>
     </div>
   );
 }
