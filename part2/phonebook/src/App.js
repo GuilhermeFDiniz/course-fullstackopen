@@ -29,24 +29,25 @@ const App = () => {
       const changedPerson = {...personToUpdate, 'number': newNumber}
       phoneService.updatePhone(changedPerson, personToUpdate.id).then(response => {
         setPersons(persons.map(person => person.id !== response.id ? person : response))
+        setSuccessMsg(
+          `Number of ${personToUpdate.name}' is changed`
+        )
+        setTimeout(() => {
+          setSuccessMsg(null)
+        }, 5000)
       })
-      setSuccessMsg(
-        `Number of ${personToUpdate.name}' is changed`
-      )
-      setTimeout(() => {
-        setSuccessMsg(null)
-      }, 5000)
       }
     } else {
       const nameObject = {'name': newName, 'number': newNumber}
-      phoneService.createPhone(nameObject).then(response =>
-      setPersons(persons.concat(response)))
+      phoneService.createPhone(nameObject).then(response => {
+      setPersons(persons.concat(response))
       setSuccessMsg(
         `Added ${nameObject.name}`
       )
       setTimeout(() => {
         setSuccessMsg(null)
       }, 5000)
+    })
     }
     setNewName('')
     setNewNumber('')
