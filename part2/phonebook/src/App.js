@@ -3,7 +3,6 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import HandleRequest from './services/phoneService'
-import axios from 'axios'
 import phoneService from './services/phoneService'
 
 const App = () => {
@@ -31,6 +30,17 @@ const App = () => {
     }
     setNewName('')
     setNewNumber('')
+  }
+
+  const handleDelete = (id) => {
+    const personToDelete = persons.find(person => person.id === id)
+    if(window.confirm(`Delete ${personToDelete.name} ?`)){
+    phoneService.deletePhone(id).then(response => {
+      setPersons(persons.filter((person) => personToDelete.id !== person.id))
+    }).catch(error => {
+      alert('Error deleting check console', error)
+    })
+  }
   }
 
   const handleInputName = (event) => {
@@ -63,7 +73,7 @@ const App = () => {
       newNumber={newNumber}
       />
       <h3>Numbers</h3>
-      <Persons filter={filter}/>
+      <Persons handleDelete={handleDelete} filter={filter}/>
     </div>
   )
 }

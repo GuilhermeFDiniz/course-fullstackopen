@@ -23,9 +23,17 @@ const updatePhone = (body) => {
   })
 }
 
+const deletePhone = (id) => {
+  const request = axios.delete(`${baseUrl}/${id}`)
+  return request.then(response => {;
+    return response.data
+  })
+}
+
 export default
 {
   getAllPhones,
   createPhone,
-  updatePhone
+  updatePhone,
+  deletePhone
 }
