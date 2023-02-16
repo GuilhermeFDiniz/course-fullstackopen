@@ -22,7 +22,13 @@ const App = () => {
   const handleForm = (event) => {
     event.preventDefault()
     if(persons.some((element) => element.name === newName)){
-      alert(`${newName} is already added to phonebook`)
+      const personToUpdate = persons.find(person => newName === person.name)
+      if(window.confirm(`${personToUpdate.name} is already added to phonebook, replace the old number with a new one?`)){
+      const changedPerson = {...personToUpdate, 'number': newNumber}
+      phoneService.updatePhone(changedPerson, personToUpdate.id).then(response => {
+        setPersons(persons.map(person => person.id !== response.id ? person : response))
+      })
+      alert(`${newName} sucessfully updated`)}
     } else {
       const nameObject = {'name': newName, 'number': newNumber}
       phoneService.createPhone(nameObject).then(response =>

@@ -16,8 +16,8 @@ const createPhone = (body) => {
   })
 }
 
-const updatePhone = (body) => {
-  const request = axios.put(`${baseUrl}/${body.id}`, body)
+const updatePhone = (body, id) => {
+  const request = axios.put(`${baseUrl}/${id}`, body)
   return request.then(response => {
     return response.data
   })
