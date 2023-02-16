@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
+import Notification from './components/Notification'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import HandleRequest from './services/phoneService'
@@ -10,6 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newFilterName, setNewFilterName] = useState('')
   const [persons, setPersons] = useState([])
+  const [successMsg, setSuccessMsg] = useState(null)
 
   useEffect(() => {
     HandleRequest
@@ -28,11 +30,23 @@ const App = () => {
       phoneService.updatePhone(changedPerson, personToUpdate.id).then(response => {
         setPersons(persons.map(person => person.id !== response.id ? person : response))
       })
-      alert(`${newName} sucessfully updated`)}
+      setSuccessMsg(
+        `Number of ${personToUpdate.name}' is changed`
+      )
+      setTimeout(() => {
+        setSuccessMsg(null)
+      }, 5000)
+      }
     } else {
       const nameObject = {'name': newName, 'number': newNumber}
       phoneService.createPhone(nameObject).then(response =>
       setPersons(persons.concat(response)))
+      setSuccessMsg(
+        `Added ${nameObject.name}`
+      )
+      setTimeout(() => {
+        setSuccessMsg(null)
+      }, 5000)
     }
     setNewName('')
     setNewNumber('')
@@ -44,7 +58,7 @@ const App = () => {
     phoneService.deletePhone(id).then(response => {
       setPersons(persons.filter((person) => personToDelete.id !== person.id))
     }).catch(error => {
-      alert('Error deleting check console', error)
+      console.log(error);
     })
   }
   }
@@ -69,6 +83,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={successMsg} />
       <Filter newFilterName={newFilterName} handleFilter={handleFilter}/>
       <h3>Add a new</h3>
       <PersonForm
