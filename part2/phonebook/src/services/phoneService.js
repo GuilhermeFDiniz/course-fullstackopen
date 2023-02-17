@@ -25,7 +25,7 @@ const updatePhone = (body, id) => {
 
 const deletePhone = (id) => {
   const request = axios.delete(`${baseUrl}/${id}`)
-  return request.then(response => {;
+  return request.then(response => {
     return response.data
   })
 }
