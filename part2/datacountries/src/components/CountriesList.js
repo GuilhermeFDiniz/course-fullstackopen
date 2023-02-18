@@ -1,11 +1,13 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import axios from 'axios'
+import Weather from './Weather'
 
 function CountriesList({list, handleClick}) {
   if(list.length > 10){
     return <p>Too many matches, specify another filter</p>
   } else if (list.length === 1){
-  return (
-    <>
+      return (
+        <>
       <h2>{list[0].name.common}</h2>
       <p>capital {list[0].capital}</p>
       <p>area {list[0].area}</p>
@@ -16,6 +18,7 @@ function CountriesList({list, handleClick}) {
         })}
       </ul>
       <img alt={list[0].flags.png} src={list[0].flags.png} />
+      <Weather list={list}/>
     </>
     )
   } else {
